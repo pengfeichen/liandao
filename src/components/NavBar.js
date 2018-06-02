@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+// Import components
+
 const NavBar = () => {
   return (
     <nav className="blue-grey darken-4">
