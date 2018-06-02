@@ -31,6 +31,7 @@ const Dashboard = () => {
     <div className="container">
       <div className="row">
         <div className="col s12">
+        <h4>Sample Chart</h4>
         <Bar data={data} />
         </div>
       </div>
