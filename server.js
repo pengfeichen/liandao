@@ -37,6 +37,15 @@ mongoose
 // API routes
 app.use('/api/users', users);
 
+// If in production, serve static assets
+if(process.env.NODE_ENV === 'production') {
+  const publicPath = path.join('client', "build");
+  app.use(express.static(publicPath));
+  app.get('*', (req, res)=>{
+    res.sendFile(path.join(publicPath, 'index.html'));
+});
+}
+
 // Start server on PORT
 const port = process.env.PORT || 5000;
 app.listen(port, ()=>console.log(`Server started on port ${port}, env=${process.env.NODE_ENV}`))
