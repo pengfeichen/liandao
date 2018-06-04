@@ -9,7 +9,7 @@ const Dashboard = () => {
       <div className="row">
         <div className="col s12">
       <div class="card-panel white">
-      <TradesLineChart limit="100"/>
+      <TradesLineChart limit="1000"/>
         </div>
         
         </div>
