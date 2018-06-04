@@ -1,22 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 // Import Components
-import TradesLineChart from './charts/TradesLineChart';
+// import TradesLineChart from './charts/TradesLineChart';
 
-const Dashboard = () => {
+const Dashboard = ({ name }) => {
   return (
     <div className="container">
       <div className="row">
         <div className="col s12">
-      <div class="card-panel white">
-      <TradesLineChart limit="1000"/>
+        <div className="">
+        <blockquote><h4>TODO: Dashboard</h4></blockquote>
+        <blockquote><h2>Welcome {name}!</h2></blockquote>
         </div>
-        
         </div>
       </div>
       
     </div>
   )
 }
-
-export default Dashboard;
+const mapStateToProps = state => ({
+  name: state.auth.user.name
+})
+export default connect(mapStateToProps)(Dashboard);

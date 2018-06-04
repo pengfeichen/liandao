@@ -6,7 +6,7 @@ class Landing extends Component {
       <div className="landing">
         <div className="container">
           <div className="row">
-            <div className="col s12 center-align">
+            <div className="col s12">
               <blockquote><h4>TODO: Landing page design</h4></blockquote>
             </div>
           </div>

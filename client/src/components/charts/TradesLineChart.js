@@ -7,7 +7,7 @@ import moment from 'moment';
 import { getTrades } from '../../actions/tradesData';
 
 // Import Components
-import PreLoader from '../../common/PreLoader';
+import PreLoader from '../common/PreLoader';
 
 class TradesLinesChart extends Component {
   componentDidMount() {

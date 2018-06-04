@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
 
 // Import action
 import { registerUser } from '../../actions/auth';
@@ -12,7 +10,6 @@ class Register extends Component {
     email: '',
     password: '',
     password2: '',
-    test: ''
   };
 
   onChange = e => {
@@ -26,7 +23,8 @@ class Register extends Component {
     const newUser = {
       name: this.state.name,
       email: this.state.email,
-      password: this.state.password
+      password: this.state.password,
+      password2: this.state.password2
     };
     this.props.registerUser(newUser, this.props.history);
   };
@@ -47,54 +45,33 @@ class Register extends Component {
                 onSubmit={this.onSubmit}
               >
                 <div className="row">
-                  <div className="input-field col s12 m6 offset-m3">
-                    <input
-                      name="name"
-                      placeholder="Your name"
-                      type="text"
-                      value={this.state.name}
-                      onChange={this.onChange}
-                    />
-                    <label>Name</label>
+                  <div className="col s12 m6 offset-m3 input-field ">
+                    <input name="name" id="name" type="text" className="validate" value={this.state.name} onChange={this.onChange} autoComplete="off"/>
+                    <label htmlFor="name">Name</label>
                   </div>
                 </div>
+
                 <div className="row">
-                  <div className="input-field col s12 m6 offset-m3">
-                    <input
-                      name="email"
-                      placeholder="Your email"
-                      type="text"
-                      value={this.state.email}
-                      onChange={this.onChange}
-                      autoComplete="off"
-                    />
-                    <label>Email</label>
+                  <div className="col s12 m6 offset-m3 input-field ">
+                    <input name="email" id="email" type="email" className="validate" value={this.state.email} onChange={this.onChange} autoComplete="off"/>
+                    <label htmlFor="email">Email</label>
                   </div>
                 </div>
+
                 <div className="row">
-                  <div className="input-field col s12 m6 offset-m3">
-                    <input
-                      name="password"
-                      placeholder="Pick a password between 2 ~ 30 characters"
-                      type="password"
-                      value={this.state.password}
-                      onChange={this.onChange}
-                    />
-                    <label>Password</label>
+                  <div className="col s12 m6 offset-m3 input-field ">
+                    <input name="password" id="password" type="password" className="validate" value={this.state.password} onChange={this.onChange} autoComplete="off"/>
+                    <label htmlFor="password">Password</label>
                   </div>
                 </div>
+
                 <div className="row">
-                  <div className="input-field col s12 m6 offset-m3">
-                    <input
-                      name="password2"
-                      placeholder="Please re-type your password"
-                      type="password"
-                      value={this.state.password2}
-                      onChange={this.onChange}
-                    />
-                    <label>Confirm Password</label>
+                  <div className="col s12 m6 offset-m3 input-field ">
+                    <input name="password2" id="password2" type="password" className="validate" value={this.state.password2} onChange={this.onChange} autoComplete="off"/>
+                    <label htmlFor="password2">Confirm Password</label>
                   </div>
                 </div>
+
                 <div className="row">
                   <div className="col s12 m6 offset-m3">
                     <button
@@ -103,10 +80,6 @@ class Register extends Component {
                     >
                       submit
                     </button>
-                  </div>
-                </div>
-                <div className="row">
-                <div className="col s12 m6 offset-m3">
                   </div>
                 </div>
               </form>
