@@ -14,6 +14,9 @@ if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: '.env.development' })
 }
 
+// Import routes
+const users = require('./routes/api/users')
+
 // Initialize app
 const app = express();
 
@@ -22,10 +25,17 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 // app.use(history());
 
+//DB Config
+const db = process.env.MONGO_URI;
+
+//Connect to mongodb
+mongoose
+  .connect(db)
+  .then(() => console.log('Mongodb connected'))
+  .catch(err => console.log(err));
+
 // API routes
-app.get('/', (req, res)=>{
-  res.send({text: 'server is working'})
-})
+app.use('/api/users', users);
 
 // Start server on PORT
 const port = process.env.PORT || 5000;

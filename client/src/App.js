@@ -4,8 +4,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 // Import redux store
 import configureStore from './store/configureStore';
 // Import Components
-import NavBar from './components/NavBar';
+import Landing from './components/layout/Landing';
+import NavBar from './components/layout/NavBar';
+import Register from './components/auth/Register';
 import Dashboard from './components/Dashboard';
+
+import './App.css';
 
 const store = configureStore();
 
@@ -15,8 +19,13 @@ class App extends Component {
       <Provider store={store}>
         <Router>
           <div className="App">
-          <NavBar />
-            <Route exact path="/" component={ Dashboard } />
+            <NavBar />
+              <Route exact path="/" component={ Landing } />
+              <Route exact path="/dashboard" component={ Dashboard } />
+              <Route exact path="/register" component={ Register } />
+            <Switch>
+            
+            </Switch>
           </div>
         </Router>
       </Provider>
