@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // app.use(history());
 
 //DB Config
-const db = process.env.MONGO_URI;
+const db = process.env.MONGODB_URI;
 
 //Connect to mongodb
 mongoose
