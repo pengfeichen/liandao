@@ -1,16 +1,15 @@
 import axios from 'axios';
+import {getErrors} from '../actions/error';
 
 // Get trades
-export const getTrades = (limit=50) => dispatch => {
+export const getTrades = () => dispatch => {
   axios
-    .get(`https://api.cryptowat.ch/markets/gdax/btcusd/trades?limit=${limit}`)
+    .get('/api/trades')
     .then(res => {
       dispatch({
-        type: 'GET_TRADES',
-        data: res.data.result
+        type: 'GET_TRADES_DATA',
+        data: res.data
       })
     })
-    .catch(err => {
-      console.log(err)
-    })
+    .catch(err => dispatch(getErrors(err.response.data)));
 }

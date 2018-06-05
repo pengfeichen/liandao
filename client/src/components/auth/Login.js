@@ -16,7 +16,6 @@ class Login extends Component {
       email: this.state.email,
       password: this.state.password
     }
-    console.log(payload)
     this.props.loginUser(payload, this.props.history);
   }
 

@@ -10,7 +10,7 @@ const User = require('../../models/User');
 const validateLoginInput = require('../../validation/login');
 const validateRegisterInput = require('../../validation/register');
 
-// @route   GET api/users/register
+// @route   POST api/users/register
 // @dec     Register user
 // @access  Public
 router.post('/register', (req, res) => {
@@ -67,7 +67,7 @@ router.post('/login', (req, res) => {
   User.findOne({ email }).then(user => {
     if (!user) {
       errors.user = 'user not found';
-      return res.json(errors);
+      return res.status(400).json(errors);
     }
     // Compare password
     bcrypt.compare(password, user.password).then((isMatch, err) => {
@@ -97,6 +97,13 @@ router.post('/login', (req, res) => {
           });
         }
       );
+      // Create auth log
+      user.logins = user.logins.concat({})
+      user.save(function (err) {
+        if(err) {
+            console.error('Login Logs error!');
+        }
+      });
       } else {
         errors.password = 'Password inncorrect';
         return res.status(400).json(errors);

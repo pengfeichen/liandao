@@ -20,6 +20,7 @@ const Dashboard = ({ name }) => {
   )
 }
 const mapStateToProps = state => ({
-  name: state.auth.user.name
+  name: state.auth.user.name,
+  auth: state.auth
 })
 export default connect(mapStateToProps)(Dashboard);

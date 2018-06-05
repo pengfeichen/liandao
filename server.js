@@ -16,6 +16,7 @@ if (process.env.NODE_ENV === 'test') {
 
 // Import routes
 const users = require('./routes/api/users')
+const trades = require('./routes/api/trades')
 
 // Initialize app
 const app = express();
@@ -36,6 +37,7 @@ mongoose
 
 // API routes
 app.use('/api/users', users);
+app.use('/api/trades', trades);
 
 // If in production, serve static assets
 if(process.env.NODE_ENV === 'production') {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Line } from 'react-chartjs-2';
 import moment from 'moment';
+import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // Import actions
 import { getTrades } from '../../actions/tradesData';
@@ -11,49 +11,47 @@ import PreLoader from '../common/PreLoader';
 
 class TradesLinesChart extends Component {
   componentDidMount() {
-    this.props.getTrades(this.props.limit);
+    this.props.getTrades();
   }
 
   render() {
     const { data } = this.props;
-    let time = [];
-    let price = [];
-    let amount = [];
+    let chartData = []
 
-    if (data) {
-      console.log(data.length);
-      data.forEach(trade => {
-        time = time.concat(moment.unix(trade[1]).format('k:mm:ss'));
-        price = price.concat(trade[2]);
-        amount = amount.concat(trade[3]);
-      });
+    if (Object.keys(data).length > 0) {
+      chartData = data.data.result.map(trade => ({
+        time : moment.unix(trade[1]).format('k:mm:ss'),
+        price : trade[2],
+        amount : trade[3]
+      }));
     }
-
-    const chartData = {
-      labels: time,
-      datasets: [
-        {
-          label: `USD/BTC`,
-          data: price,
-          backgroundColor: ['rgba(56, 142, 60, 0.2)'],
-          borderColor: ['rgba(56,142,60,1)'],
-          borderWidth: 1
-        }
-      ]
-    };
 
     return (
       <div>
-        {data ? (
+        {Object.keys(data).length > 0 ? (
           <div>
-            <h5>{`GDAX USD/BTC Prices`}</h5>
-            <Line data={chartData} />
+            <div className="card">
+              <div className="card-content">
+              <span className="card-title">{`GDAX USD/BTC Prices`}</span>
+              <ResponsiveContainer width="100%" height={500}>
+                <AreaChart data={chartData}>
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="time" />
+                  <YAxis domain={['dataMin', 'dataMax']}/>
+                  <Tooltip isAnimationActive={false}/>
+                  <Legend />
+                  <Area type="monotone" dataKey="price" stroke="#8884d8" fillOpacity={0.3} fill='#8884d8' />
+                  </AreaChart>
+              </ResponsiveContainer>
+              </div>
+            </div>
           </div>
         ) : (
-
-            <div className="center-align">
-              <PreLoader />
+          <div className="card">
+            <div className="card-content center-align">
+              <PreLoader/>
             </div>
+          </div>
         )}
       </div>
     );
@@ -61,7 +59,7 @@ class TradesLinesChart extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.tradesData.data
+  data: state.tradesData
 });
 
 export default connect(mapStateToProps, { getTrades })(TradesLinesChart);
