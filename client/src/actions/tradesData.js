@@ -1,15 +1,14 @@
-import axios from 'axios';
-import {getErrors} from '../actions/error';
+import io from 'socket.io-client';
+// import {getErrors} from '../actions/error';
 
 // Get trades
+// TODO: Handle failur cases
 export const getTrades = () => dispatch => {
-  axios
-    .get('/api/trades')
-    .then(res => {
-      dispatch({
-        type: 'GET_TRADES_DATA',
-        data: res.data
-      })
+  const socket = io();
+  socket.on('ticker', (data)=>{
+    dispatch({
+      type: 'GET_TRADES_DATA',
+      data
     })
-    .catch(err => dispatch(getErrors(err.response.data)));
+  })
 }

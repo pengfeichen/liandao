@@ -1,9 +1,3 @@
-const express = require('express');
-const history = require('connect-history-api-fallback');
-const path = require('path');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-
 // Set NODE_ENV variable
 process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -14,12 +8,22 @@ if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: '.env.development' })
 }
 
+const app = require('express')();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+const history = require('connect-history-api-fallback');
+const path = require('path');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const getTicker = require('./getTicker');
+// const sendTicker = require('./SendTicker');
+
 // Import routes
 const users = require('./routes/api/users')
 const trades = require('./routes/api/trades')
 
-// Initialize app
-const app = express();
+// Import model
+const Ticker = require('./models/Ticker')
 
 // Apply middleware
 app.use(bodyParser.urlencoded({extended: false}));
@@ -48,6 +52,22 @@ if(process.env.NODE_ENV === 'production') {
 });
 }
 
-// Start server on PORT
+io.on('connection', (client) => {
+  console.log('NEW CLIENT!')
+  // Fetch trades data from database
+  Ticker.find().sort({time: -1}).limit(1000)
+    .then(tickers => {
+      // Sends data to client
+      client.emit('ticker', tickers)
+    })
+
+    setInterval(()=>Ticker.find().sort({time: -1}).limit(1)
+    .then(ticker=>{
+      client.emit('ticker', ticker)
+    }), 1500);
+
+});
+
+// Start server on port
 const port = process.env.PORT || 5000;
-app.listen(port, ()=>console.log(`Server started on port ${port}, env=${process.env.NODE_ENV}`))
+http.listen(port, ()=>console.log(`Server started on port ${port}, env=${process.env.NODE_ENV}`))

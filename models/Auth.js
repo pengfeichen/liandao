@@ -18,3 +18,5 @@ const AuthSchema = new Schema({
     }
   }]
 })
+
+module.exports = AuthSchema = mongoose.model('auths', AuthSchema);
