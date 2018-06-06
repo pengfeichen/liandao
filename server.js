@@ -63,13 +63,24 @@ io.on('connection', (client) => {
   //     // Sends data to client
   //     client.emit('ticker', tickers)
   //   })
-
-    setInterval(()=>Ticker.find().sort({time: -1}).limit(1)
+  let id = 0;
+    setInterval(()=>
+    {
+      
+      Ticker.find().sort({time: -1}).limit(1)
     .then(ticker=>{
-      if(ticker[0]._id !== ticker[1]._id){
-      console.log(ticker)
-      client.emit('ticker', ticker)}
-    }), 1000);
+      console.log(id !== ticker[0]._id)
+      if (ticker[0]._id !== id) {
+        console.log(id !== ticker[0]._id)
+        console.log(ticker[0]._id)
+        console.log(id)
+      id = ticker[0]._id
+      console.log(id)
+      client.emit('ticker', ticker)
+    } else{
+        console.log('not updating')
+      }
+    })}, 1000);
 
 });
 
