@@ -8,7 +8,9 @@ if (process.env.NODE_ENV === 'test') {
   require('dotenv').config({ path: '.env.development' })
 }
 
-const app = require('express')();
+const express = require('express');
+// Initial server
+const app = express();
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const history = require('connect-history-api-fallback');
@@ -39,6 +41,7 @@ mongoose
   .then(() => console.log('Mongodb connected'))
   .catch(err => console.log(err));
 
+
 // API routes
 app.use('/api/users', users);
 app.use('/api/trades', trades);
@@ -55,15 +58,17 @@ if(process.env.NODE_ENV === 'production') {
 io.on('connection', (client) => {
   console.log('NEW CLIENT!')
   // Fetch trades data from database
-  Ticker.find().sort({time: -1}).limit(1000)
+  Ticker.find().sort({time: 'desc'}).limit(1000)
     .then(tickers => {
       // Sends data to client
       client.emit('ticker', tickers)
     })
 
-    setInterval(()=>Ticker.find().sort({time: -1}).limit(1)
+    setInterval(()=>Ticker.find().sort({time: -1}).limit(2)
     .then(ticker=>{
-      client.emit('ticker', ticker)
+      if(ticker[0]._id !== ticker[1]._id){
+      console.log(ticker)
+      client.emit('ticker', ticker)}
     }), 1500);
 
 });
