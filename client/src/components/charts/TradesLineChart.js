@@ -17,7 +17,6 @@ class TradesLinesChart extends Component {
   render() {
     const { data } = this.props;
     let chartData = []
-    console.log(data)
     if (data.length > 0) {
       chartData = data.map(trade => ({
         time : moment(trade.time).format('k:mm:ss'),
