@@ -58,18 +58,18 @@ if(process.env.NODE_ENV === 'production') {
 io.on('connection', (client) => {
   console.log('NEW CLIENT!')
   // Fetch trades data from database
-  Ticker.find().sort({time: 'desc'}).limit(1000)
-    .then(tickers => {
-      // Sends data to client
-      client.emit('ticker', tickers)
-    })
+  // Ticker.find().sort({time: 'desc'}).limit(1000)
+  //   .then(tickers => {
+  //     // Sends data to client
+  //     client.emit('ticker', tickers)
+  //   })
 
-    setInterval(()=>Ticker.find().sort({time: -1}).limit(2)
+    setInterval(()=>Ticker.find().sort({time: -1}).limit(1)
     .then(ticker=>{
       if(ticker[0]._id !== ticker[1]._id){
       console.log(ticker)
       client.emit('ticker', ticker)}
-    }), 1500);
+    }), 1000);
 
 });
 
