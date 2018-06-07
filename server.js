@@ -50,7 +50,7 @@ app.use('/api/trends', trends);
 
 // If in production, serve static assets
 if(process.env.NODE_ENV === 'production') {
-  const publicPath = path.join('client', "build");
+  const publicPath = path.join(__dirname, 'client', "build");
   app.use(express.static(publicPath));
   app.get('*', (req, res)=>{
     res.sendFile(path.join(publicPath, 'index.html'));
