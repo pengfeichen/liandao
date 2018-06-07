@@ -5,13 +5,15 @@ import thunk from 'redux-thunk';
 import tradeDataReducer from '../reducers/tradesData'
 import authReducer from '../reducers/auth'
 import errorReducer from '../reducers/error'
+import trendsReducer from '../reducers/trends'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose();
 export default () => {
   const store = createStore(combineReducers({
     tradesData: tradeDataReducer,
     auth: authReducer,
-    error: errorReducer
+    error: errorReducer,
+    trends: trendsReducer
   }), composeEnhancers(applyMiddleware(thunk)));
   return store;
 };

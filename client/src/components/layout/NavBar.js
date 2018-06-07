@@ -23,7 +23,7 @@ class NavBar extends Component {
             <Link to="/markets">Markets</Link>
           </li>
           <li>
-            <Link to="/">News Feed</Link>
+            <Link to="/newsfeed">News Feed</Link>
           </li>
           <li>
             <a onClick={this.onClick}>Logout</a>

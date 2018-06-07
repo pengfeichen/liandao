@@ -12,17 +12,18 @@ const express = require('express');
 // Initial server
 const app = express();
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+// const io = require('socket.io')(http);
 const history = require('connect-history-api-fallback');
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const getTicker = require('./getTicker');
+// const getTicker = require('./getTicker');
 // const sendTicker = require('./SendTicker');
 
 // Import routes
 const users = require('./routes/api/users')
 const trades = require('./routes/api/trades')
+const trends = require('./routes/api/trends')
 
 // Import model
 const Ticker = require('./models/Ticker')
@@ -45,6 +46,7 @@ mongoose
 // API routes
 app.use('/api/users', users);
 app.use('/api/trades', trades);
+app.use('/api/trends', trends);
 
 // If in production, serve static assets
 if(process.env.NODE_ENV === 'production') {
@@ -55,34 +57,28 @@ if(process.env.NODE_ENV === 'production') {
 });
 }
 
-io.on('connection', (client) => {
-  console.log('NEW CLIENT!')
-  // Fetch trades data from database
-  // Ticker.find().sort({time: 'desc'}).limit(1000)
-  //   .then(tickers => {
-  //     // Sends data to client
-  //     client.emit('ticker', tickers)
-  //   })
-  let id = 0;
-    setInterval(()=>
-    {
+// io.on('connection', (client) => {
+//   console.log('NEW CLIENT!')
+//   let id = 0;
+//     setInterval(()=>
+//     {
       
-      Ticker.find().sort({time: -1}).limit(1)
-    .then(ticker=>{
-      console.log(id !== ticker[0]._id)
-      if (ticker[0]._id !== id) {
-        console.log(id !== ticker[0]._id)
-        console.log(ticker[0]._id)
-        console.log(id)
-      id = ticker[0]._id
-      console.log(id)
-      client.emit('ticker', ticker)
-    } else{
-        console.log('not updating')
-      }
-    })}, 1000);
+//       Ticker.find().sort({time: -1}).limit(1)
+//     .then(ticker=>{
+//       console.log(id !== ticker[0]._id)
+//       if (ticker[0]._id !== id) {
+//         console.log(id !== ticker[0]._id)
+//         console.log(ticker[0]._id)
+//         console.log(id)
+//       id = ticker[0]._id
+//       console.log(id)
+//       client.emit('ticker', ticker)
+//     } else{
+//         console.log('not updating')
+//       }
+//     })}, 1000);
 
-});
+// });
 
 // Start server on port
 const port = process.env.PORT || 5000;

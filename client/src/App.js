@@ -16,7 +16,7 @@ import Register from './components/auth/Register';
 import Dashboard from './components/Dashboard';
 import Login from './components/auth/Login';
 import Markets from './components/Markets';
-import Websocket from './components/Websocket';
+import NewsFeed from './components/news-feed/NewsFeed';
 
 const store = configureStore();
 
@@ -47,10 +47,10 @@ class App extends Component {
               <Route exact path="/" component={ Landing } />
               <Route exact path="/register" component={ Register } />
               <Route exact path="/login" component={ Login } />
-              <Route exact path="/ws" component={ Websocket } />
             <Switch>
               <PrivateRoute exact path="/dashboard" component={ Dashboard } />
               <PrivateRoute exact path="/markets" component={ Markets } />
+              <PrivateRoute exact path="/newsfeed" component={ NewsFeed } />
             </Switch>
           </div>
         </Router>

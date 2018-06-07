@@ -5,33 +5,48 @@ import { AreaChart, Area, CartesianGrid, XAxis, YAxis, Tooltip, Legend, Responsi
 
 // Import actions
 import { getTrades } from '../../actions/tradesData';
+import { getTrends } from '../../actions/trends';
 
 // Import Components
 import PreLoader from '../common/PreLoader';
 
 class TradesLinesChart extends Component {
+  state = {
+    keyword : ''
+  }
   componentDidMount() {
-    this.props.getTrades();
+    this.props.getTrends({keyword: 'Apple'})
+
+  }
+
+  handleGetTrends = (e) => {
+    e.preventDefault();
+    const options = {
+      keyword: this.state.keyword
+    }
+    this.props.getTrends(options)
+  }
+
+  handleChange = e => {
+    this.setState({[e.target.name]:e.target.value})
   }
 
   render() {
-    const { data } = this.props;
+    const { trends } = this.props;
     let chartData = []
-    if (data.length > 0) {
-      chartData = data.map(trade => ({
-        time : moment(trade.time).format('k:mm:ss'),
-        price : trade.price,
-        amount : trade.last_size
+    if (Object.keys(trends.data).length > 0) {
+      chartData = trends.data.default.timelineData.map(point => ({
+        time : moment.unix(point.time).format('DD/MM/YY'),
+        value : point.value[0]
       }));
     }
-
     return (
       <div>
-        {data.length > 0 ? (
+        {Object.keys(trends.data).length > 0 ? (
           <div>
             <div className="card">
               <div className="card-content">
-              <span className="card-title">{`GDAX USD/BTC Prices`}</span>
+              <span className="card-title">{trends.options.keyword}</span>
               <ResponsiveContainer width="100%" height={500}>
                 <AreaChart data={chartData}>
                   <CartesianGrid strokeDasharray="3 3" />
@@ -39,12 +54,19 @@ class TradesLinesChart extends Component {
                   <YAxis domain={['dataMin', 'dataMax']}/>
                   <Tooltip isAnimationActive={false}/>
                   <Legend />
-                  <Area type="monotone" dataKey="price" stroke="#8884d8" fillOpacity={0.3} fill='#8884d8' />
+                  <Area type="monotone" dataKey="value" stroke="#8884d8" fillOpacity={0.3} fill='#8884d8' />
                   </AreaChart>
               </ResponsiveContainer>
               </div>
             </div>
-          </div>
+
+              <form onSubmit={this.handleGetTrends}>
+              <div className="input-field col s12 m4">
+                <input id="keyword" name="keyword" type="text" className="validate" value={this.state.keyword} onChange={this.handleChange}/>
+                <label htmlFor="keyword">Keyword</label>
+              </div>
+              </form>
+              </div>
         ) : (
           <div className="card">
             <div className="card-content center-align">
@@ -58,7 +80,7 @@ class TradesLinesChart extends Component {
 }
 
 const mapStateToProps = state => ({
-  data: state.tradesData
+  trends: state.trends
 });
 
-export default connect(mapStateToProps, { getTrades })(TradesLinesChart);
+export default connect(mapStateToProps, { getTrends })(TradesLinesChart);

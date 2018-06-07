@@ -1611,6 +1611,10 @@ globals@^9.18.0:
   version "9.18.0"
   resolved "https://registry.yarnpkg.com/globals/-/globals-9.18.0.tgz#aa3896b3e69b487f17e31ed2143d69a8e30c2d8a"
 
+google-trends-api@^4.6.2:
+  version "4.6.2"
+  resolved "https://registry.yarnpkg.com/google-trends-api/-/google-trends-api-4.6.2.tgz#0742cf3eca55dca535d95b1aa41add7572e2a9e4"
+
 got@^6.7.1:
   version "6.7.1"
   resolved "https://registry.yarnpkg.com/got/-/got-6.7.1.tgz#240cd05785a9a18e561dc1b44b41c763ef1e8db0"
