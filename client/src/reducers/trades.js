@@ -1,26 +1,24 @@
 const initialState = {
-  options: {},
-  data: {},
+  data:[],
   loading: false
-}
+};
 
-const trendsReducer = (state=initialState, action) => {
-  switch(action.type){
-    case 'START_LOADING_TRENDS':
+const tradeDataReducer = (state=initialState, action) => {
+  switch(action.type) {
+    case 'START_LOADING_TRADES':
       return {
         ...state,
         loading: true
       }
-    case 'GET_TRENDS':
+    case "GET_TRADES_DATA":
       return {
         ...state,
-        options: action.options,
         data: action.data,
         loading: action.loading
       }
     default:
       return state;
-  }
+  }  
 }
 
-export default trendsReducer;
+export default tradeDataReducer;

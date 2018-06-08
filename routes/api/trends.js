@@ -1,16 +1,26 @@
 const express = require('express');
 const router = express.Router();
-const axios = require('axios');
 const googleTrends = require('google-trends-api');
 
 // @route   POST api/trends/
 // @dec     Get trends data
 // @access  Public
-router.post('/', (req, res) => {
-  const { keyword } = req.body;
+router.post('/time', (req, res) => {
+  const { keyword, startTime, endTime, geo, hl, timezone, category, granularTimeResolution } = req.body;
+
   const optionsObject = {
-    keyword
+    keyword,
+    startTime: startTime && new Date(startTime*1000),
+    endTime: endTime && new Date(endTime*1000),
+    geo,
+    hl,
+    timezone,
+    category,
+    granularTimeResolution: true
   };
+
+  console.log(startTime)
+  console.log(endTime)
 
   googleTrends
     .interestOverTime(optionsObject)

@@ -3,15 +3,21 @@ import {getErrors} from '../actions/error';
 
 // Get Google Trends
 export const getTrends = options => dispatch => {
+  dispatch({
+    type: 'START_LOADING_TRENDS'
+  })
+  console.log('loading trends should be true')
   axios
-    .post('/api/trends', options)
+    .post('/api/trends/time', options)
     .then(res=> {
       dispatch({
         type: 'GET_TRENDS',
         options,
-        data: res.data
+        data: res.data,
+        loading: false
       })
     })
+    .catch(err=>dispatch(getErrors(err)))
 }
 
 

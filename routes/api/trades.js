@@ -8,9 +8,10 @@ const Trade = require('../../models/Trade');
 // @route   GET api/trades/
 // @dec     Get trade data
 // @access  Private
-router.get('/', (req, res)=>{
+router.get('/candles/:productID', (req, res)=>{
+  const productID = req.params.productID
   axios
-  .get(`https://api.cryptowat.ch/markets/gdax/btcusd/trades?limit=1000`)
+  .get(`https://api.gdax.com/products/${productID}/candles`)
   .then(trades => {
     if(trades.statusText === 'OK'){
       res.json(trades.data)
