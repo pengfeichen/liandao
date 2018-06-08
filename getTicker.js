@@ -11,17 +11,20 @@ const sendData = {
       "BTC-USD"
   ],
   channels: [
-      "ticker"
+      "ticker",
+      "level2"
   ]
 }
 
 ws.on('open', function open() {
   console.log(JSON.stringify(sendData))
   ws.send(JSON.stringify(sendData));
+
 })
 
 module.exports = getTicker = ws.on('message', function incoming(rawData) {
   const data = JSON.parse(rawData)
+  console.log(data)
   if(data.type === 'ticker' && data.trade_id) {
     const { sequence, product_id, price, open_24h, volume_24h, low_24h, high_24h, volume_30d, best_bid, best_ask, side, time, trade_id, last_size} = data
     console.log(time)
