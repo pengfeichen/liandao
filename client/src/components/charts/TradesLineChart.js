@@ -18,6 +18,8 @@ import { getTrends } from '../../actions/trends';
 
 // Import Components
 import PreLoader from '../common/PreLoader';
+import CurrencyPairInput from '../common/CurrencyPairInput';
+import TrendsInput from '../common/TrendsInput';
 
 class TradesLinesChart extends Component {
   state = {
@@ -28,6 +30,7 @@ class TradesLinesChart extends Component {
     trades_loading: this.props.trades_loading,
     trends_loading: this.props.trends.loading
   };
+
   componentDidMount() {
     console.log('mount');
     this.props.getTrades('BTC-USD');
@@ -58,34 +61,11 @@ class TradesLinesChart extends Component {
     }
   }
 
-  handleGetTrends = e => {
-    console.log('handleing get trends')
-
-    e.preventDefault();
-    const options = {
-      keyword: this.state.keyword,
-      startTime: this.state.startTime,
-      endTime: this.state.endTime
-    };
-    this.props.getTrends(options);
-  };
-
-  handleGetTrades = e => {
-    console.log('handleing get trades')
-    e.preventDefault();
-    this.props.getTrades(this.state.productID);
-    console.log(this.props.trades_loading)
-  };
-
-  handleChange = e => {
-    console.log('onchange')
-    this.setState({ [e.target.name]: e.target.value });
-  };
 
   render() {
     console.log('rendering');
     const { trends, trades } = this.props;
-    const { trades_loading } = this.state;
+    const { trades_loading, startTime, endTime } = this.state;
     console.log('trading loading',trades_loading)
     // Making trades area graph data object
     let tradeData = [];
@@ -162,34 +142,8 @@ class TradesLinesChart extends Component {
                 </ResponsiveContainer>
               </div>
             </div>
-            <form onSubmit={this.handleGetTrades}>
-              <div className="input-field col s12 m4">
-                <input
-                  id="productID"
-                  name="productID"
-                  type="text"
-                  className="validate"
-                  value={this.state.productID}
-                  onChange={this.handleChange}
-                  autoComplete="off"
-                />
-                <label htmlFor="productID">Currency Pair</label>
-              </div>
-            </form>
-            <form onSubmit={this.handleGetTrends}>
-              <div className="input-field col s12 m4">
-                <input
-                  id="keyword"
-                  name="keyword"
-                  type="text"
-                  className="validate"
-                  value={this.state.keyword}
-                  onChange={this.handleChange}
-                  autoComplete="off"
-                />
-                <label htmlFor="keyword">Keyword</label>
-              </div>
-            </form>
+            <CurrencyPairInput />
+            <TrendsInput startTime={startTime} endTime={endTime} />
           </div>
         ) : (
           <div className="card">
