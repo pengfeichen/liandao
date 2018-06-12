@@ -31,7 +31,7 @@ const Ticker = require('./models/Ticker')
 // Apply middleware
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-// app.use(history());
+app.use(history());
 
 //DB Config
 const db = process.env.MONGODB_URI;
