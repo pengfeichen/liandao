@@ -64,7 +64,7 @@ class TradesLinesChart extends Component {
 
   render() {
     console.log('rendering');
-    const { trends, trades } = this.props;
+    const { trends, trades, related } = this.props;
     const { trades_loading, startTime, endTime } = this.state;
     console.log('trading loading',trades_loading)
     // Making trades area graph data object
@@ -107,9 +107,17 @@ class TradesLinesChart extends Component {
           }
         }
       }
-
+      let relatedQueires, risingQueries ;
+      if (Object.keys(related).length > 0) {
+        relatedQueires = related.data.default.rankedList[0].rankedKeyword.map((keyword, index)=>
+          <li key={index}>{keyword.query} {keyword.formattedValue}</li>
+        )
+        risingQueries = related.data.default.rankedList[1].rankedKeyword.map((keyword, index)=>
+          <li key={index}>{keyword.query} {keyword.formattedValue}</li>
+        )
+      }
     return (
-      <div>
+      <div className="TradesLineChart">
         {trades.length > 0 ? (
           <div>
             <div className="card">
@@ -142,8 +150,28 @@ class TradesLinesChart extends Component {
                 </ResponsiveContainer>
               </div>
             </div>
+            <div className="col s12">
             <CurrencyPairInput />
             <TrendsInput startTime={startTime} endTime={endTime} />
+            </div>
+            <div className="col s12 m6">
+            <div className="card">
+              <div className="card-content">
+                <div className="card-title">Top Queries</div>
+                <ol>
+                  {relatedQueires}
+                </ol>
+              </div>
+            </div></div>
+            <div className="col s12 m6">
+            <div className="card">
+              <div className="card-content">
+                <div className="card-title">Rising Queries</div>
+                <ol>
+                  {risingQueries}
+                </ol>
+              </div>
+            </div></div>
           </div>
         ) : (
           <div className="card">
@@ -160,7 +188,8 @@ class TradesLinesChart extends Component {
 const mapStateToProps = state => ({
   trends: state.trends,
   trades: state.trades.data,
-  trades_loading: state.trades.loading
+  trades_loading: state.trades.loading,
+  related: state.trends.related
 });
 
 export default connect(

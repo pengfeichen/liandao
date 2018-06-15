@@ -18,6 +18,18 @@ export const getTrends = options => dispatch => {
       })
     })
     .catch(err=>dispatch(getErrors(err)))
-}
+
+    axios
+      .post('/api/trends/related', options)
+      .then(related=> {
+        dispatch({
+          type: 'GET_TRENDS_RELATED',
+          options,
+          related,
+          loading: false
+        })
+      })
+      .catch(err=>dispatch(getErrors(err)))
+  }
 
 

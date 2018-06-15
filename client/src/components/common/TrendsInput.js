@@ -39,7 +39,7 @@ class TrendsInput extends Component {
             onChange={this.onChange}
             autoComplete="off"
           />
-        <label htmlFor="keyword">Google Trends Keyword</label>
+        <label htmlFor="keyword">Google Trends</label>
         </div>
       </form>
     );
